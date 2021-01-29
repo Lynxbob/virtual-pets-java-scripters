@@ -71,86 +71,90 @@ public class VirtualPet {
         isDeadCheck();
     }
 
-//Altenative code
-// hunger-= 30;
-// if(hunger<0){
-// hunger=0;
+
+
 
 
     public void eat() {
-        if (hunger < 30) {
-            hunger -= hunger;
-        } else {
-            hunger -= 30;
+        hunger -= 30;
+        if( hunger < 0 ) {
+            hunger = 0;
         }
     }
 
     public void play() {
-        if (boredom < 30) {
-            boredom -= boredom;
-        } else {
-            boredom -= 30;
+        boredom -= 30;
+        if( boredom < 0 ) {
+            boredom = 0;
         }
-
     }
 
     public void bath() {
-        if (health > 70) {
+        health += 30;
+        if( health > 100 ) {
             health = 100;
-        } else {
-            health += 30;
         }
-
     }
 
     public void drink() {
-        if (thirst < 30) {
-            thirst -= thirst;
-        } else {
-            thirst -= 30;
+        thirst -= 30;
+        if( thirst < 0 ) {
+            thirst = 0;
         }
 
     }
 
     public void status() {
+        healthStatus();
+        hungerStatus();
+        thirstStatus();
+        boredomStatus();
+    }
+    public void healthStatus() {
         if (health <= 100 && health >= 80) {
-            System.out.println(name + " is feeling healthy");
+            System.out.println(name + " is feeling healthy.");
         } else if (health < 80 && health >= 50) {
-            System.out.println(name + " is feeling okay");
+            System.out.println(name + " is feeling okay.");
         } else if (health < 50 && health >= 30) {
-            System.out.println(name + " is feeling sick");
+            System.out.println(name + " is feeling sick.");
         } else {
-            System.out.println(name + " need medical attention");
+            System.out.println(name + " need medical attention.");
         }
-        if (boredom >= 80) {
-            System.out.println(name + " is very bored at home");
-        } else if (boredom < 80 && boredom >= 50) {
-            System.out.println(name + " wants to go outside");
-        } else if (boredom < 50 && boredom >= 30) {
-            System.out.println(name + " enjoys playing with you");
-        } else {
-            System.out.println(name + " is feeling super excited");
-        }
+    }
+    public void hungerStatus() {
         if (hunger >= 80) {
-            System.out.println(name + " is starving");
+            System.out.println(name + " is starving.");
         } else if (hunger < 80 && hunger >= 50) {
-            System.out.println(name + " is hungry");
+            System.out.println(name + " is hungry.");
         } else if (hunger < 50 && hunger >= 30) {
-            System.out.println(name + " is not very hungry");
+            System.out.println(name + " is not very hungry.");
         } else {
-            System.out.println(name + " is full");
+            System.out.println(name + " is full.");
         }
+
+    }
+    public void thirstStatus() {
         if (thirst >= 80) {
-            System.out.println(name + " is very dehydrated");
+            System.out.println(name + " is very dehydrated.");
         } else if (thirst < 80 && thirst >= 50) {
-            System.out.println(name + " is thirsty");
+            System.out.println(name + " is thirsty.");
         } else if (thirst < 50 && thirst >= 30) {
-            System.out.println(name + " is not very thirsty");
+            System.out.println(name + " is not very thirsty.");
         } else {
-            System.out.println(name + " is hydrated");
-
-
+            System.out.println(name + " is hydrated.");
         }
+    }
+    public void boredomStatus() {
+        if (boredom >= 80) {
+            System.out.println(name + " is very bored at home.");
+        } else if (boredom < 80 && boredom >= 50) {
+            System.out.println(name + " wants to go outside.");
+        } else if (boredom < 50 && boredom >= 30) {
+            System.out.println(name + " enjoys playing with you.");
+        } else {
+            System.out.println(name + " is feeling super excited.");
+        }
+
     }
 }
 
