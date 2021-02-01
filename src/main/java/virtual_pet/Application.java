@@ -8,13 +8,12 @@ public class Application {
         boolean isGameRunning = true;
         VirtualPet pet = introAndMakePet(input);
 
-        while (isGameRunning){
+        while (isGameRunning) {
             printInstructions(pet);
             processCommands(pet, input);
             pet.tick();
             isGameRunning = checkForDeath(pet);
         }
-
 
 
     }
@@ -35,17 +34,16 @@ public class Application {
         System.out.println("Enter '3' to give your pet water.");
         System.out.println("Enter '4' to play with your pet.");
         System.out.println("To see how your pet is doing, enter '5'.");
-        System.out.println("and if your would like to leave, enter '0'.");
+        System.out.println("and if you would like to leave, enter '0'.");
     }
 
     public static boolean checkForDeath(VirtualPet pet) {
-        if(pet.isDead()) {
+        if (pet.isDead()) {
             System.out.println("Your pet has died! Game over!");
             return false;
         }
         return true;
     }
-
 
 
     public static void processCommands(VirtualPet pet, Scanner input) {
@@ -76,7 +74,7 @@ public class Application {
                 processCommands(pet, input);
                 break;
 
-            default :
+            default:
                 System.out.println("Not a valid instruction, please enter a new command.");
                 printInstructions(pet);
                 processCommands(pet, input);
@@ -84,5 +82,5 @@ public class Application {
         }
 
 
-        }
     }
+}

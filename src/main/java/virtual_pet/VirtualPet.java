@@ -156,6 +156,19 @@ public class VirtualPet {
         }
 
     }
+
+    @Override
+    public String toString() {
+        return "VirtualPet{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                ", health=" + health +
+                ", hunger=" + hunger +
+                ", thirst=" + thirst +
+                ", boredom=" + boredom +
+                ", isDead=" + isDead +
+                '}';
+    }
 }
 
 
