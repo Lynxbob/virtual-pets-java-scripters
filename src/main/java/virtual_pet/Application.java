@@ -6,12 +6,14 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Application {
+    private static Map<String, VirtualPet> petSelection = new HashMap<>();
+    // the reason to add the map: the map is the way we are holding the pets, so that we can switch between pets.
+    private static VirtualPetShelter shelter = new VirtualPetShelter();
+
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         boolean isGameRunning = true;
         VirtualPet pet = introAndMakePet(input);
-        Map<String, VirtualPet> petSelection = new HashMap<>();
-//        the reason to add the map: the map is the way we are holding the pets, so that we can switch between pets.
         petSelection.put(pet.getName(), pet);
 //        put adds the pet to the map.
 
@@ -47,13 +49,15 @@ public class Application {
     }
 
     public static void printShelterInstructions() {
-        System.out.println("To interact with one pet, press '1', for all pets press '2'");
-        System.out.println("press 3 to adopt a pet");
-        System.out.println("press 4 to return a pet to the shelter");
-        System.out.println("press 5 to feed");
-        System.out.println("press 6 to give water");
-        System.out.println("press 7 to bathe");
-        System.out.println("press 8 to play");
+        System.out.println("To interact with one pet, press 1");
+        System.out.println("press 2 to adopt a pet");
+        System.out.println("press 3 to return a pet to the shelter");
+        System.out.println("press 4 to feed all the pets");
+        System.out.println("press 5 to give water to all the pets");
+        System.out.println("press 6 to bathe all the pets");
+        System.out.println("press 7 to play with all the pets");
+        System.out.println("press 8 to check the pets stats");
+        System.out.println("press 9 to leave the shelter");
     }
 
 
@@ -94,7 +98,12 @@ public class Application {
                 processCommands(pet, input);
                 break;
             case 6:
-                System.out.println();
+                System.out.println("you went to the shelter");
+                printShelterInstructions();
+                processShelterCommands(input);
+                tickAllPets();
+                break;
+
 
             default:
                 System.out.println("Not a valid instruction, please enter a new command.");
@@ -105,8 +114,11 @@ public class Application {
 
 
     }
-    public static void processShelterCommands(VirtualPet pet, Scanner input) {
+
+    public static void processShelterCommands(Scanner input) {
+        VirtualPet pet;
         int command = input.nextInt();
+        String name;
         input.nextLine();
         switch (command) {
             case 0:
@@ -114,36 +126,63 @@ public class Application {
                 System.exit(0);
             case 1:
                 System.out.println("What pet would you like to interact with.");
-                input.nextLine();
-
+                name = input.nextLine();
+                pet = shelter.getMapOfPets().get(name);
+//                this will go into shelter, get the map(list of pets) and bring back the pet we asked for
+                printInstructions(pet);
+                processCommands(pet, input);
                 break;
             case 2:
-                System.out.println("You gave your pet food.");
-                pet.eat();
+                System.out.println("what pet would you like to adopt");
+                name = input.nextLine();
+                pet = shelter.adopt(name);
+                petSelection.put(pet.getName(), pet);
+                System.out.println("say hello to your new pet " + pet.getName() + "!");
                 break;
             case 3:
-                System.out.println("You gave your pet water.");
-                pet.drink();
+                System.out.println("what pet would you like to return");
+                name = input.nextLine();
+                shelter.takeIn(petSelection.get(name));
+                petSelection.remove(name);
+                System.out.println("Say goodbye to " + name);
                 break;
             case 4:
-                System.out.println("You played with your pet.");
-                pet.play();
+                System.out.println("You feed all the pets");
+                shelter.feedAllPets();
                 break;
             case 5:
-                pet.status();
-                printInstructions(pet);
-                processCommands(pet, input);
+                System.out.println("You gave water to all the pets");
+                shelter.waterAllPets();
                 break;
             case 6:
-                System.out.println();
-
+                System.out.println("your gave all the pets a bath");
+                shelter.batheAllPets();
+                break;
+            case 7:
+                System.out.println("you played with all the pets");
+                shelter.playWithAllPets();
+                break;
+            case 8:
+                shelter.printStatusOfAllPets();
+                processShelterCommands(input);
+                break;
+            case 9:
+                System.out.println("see you next time!");
+                return;
             default:
                 System.out.println("Not a valid instruction, please enter a new command.");
-                printInstructions(pet);
-                processCommands(pet, input);
+                printShelterInstructions();
+                processShelterCommands(input);
 
         }
+        printShelterInstructions();
+        processShelterCommands(input);
 
-
+    }
+    public static void tickAllPets() {
+        for (VirtualPet pet: petSelection.values()){
+            pet.tick();
+        }
+//            Goes through each pet
     }
 }
