@@ -9,8 +9,10 @@ public class Application {
     private static Map<String, VirtualPet> petSelection = new HashMap<>();
     // the reason to add the map: the map is the way we are holding the pets, so that we can switch between pets.
     private static VirtualPetShelter shelter = new VirtualPetShelter();
+    private static boolean atShelter;
 
     public static void main(String[] args) {
+        fillPetShelter();
         Scanner input = new Scanner(System.in);
         boolean isGameRunning = true;
         VirtualPet pet = introAndMakePet(input);
@@ -28,6 +30,18 @@ public class Application {
 
     }
 
+    public static void fillPetShelter(){
+        VirtualPet pet = new VirtualPet("bob");
+        shelter.takeIn(pet);
+        pet = new VirtualPet("Amy");
+        shelter.takeIn(pet);
+        pet = new VirtualPet("miguel");
+        shelter.takeIn(pet);
+
+
+
+
+    }
     public static VirtualPet introAndMakePet(Scanner input) {
         System.out.println("Welcome to the Java scripters virtual pet game!");
         System.out.println("What would you like to name your pet?");
@@ -44,8 +58,15 @@ public class Application {
         System.out.println("Enter '3' to give your pet water.");
         System.out.println("Enter '4' to play with your pet.");
         System.out.println("To see how your pet is doing, enter '5'.");
-        System.out.println("and if your would like to leave, enter '0'.");
-        System.out.println("To visit the pet shelter, press '6'.");
+        System.out.println("and if your would like to leave the application, enter '0'.");
+
+
+        if(!atShelter){
+            System.out.println("To visit the pet shelter, press '6'.");
+        }
+        else {
+            System.out.println("to stop interacting press 6");
+        }
     }
 
     public static void printShelterInstructions() {
@@ -98,10 +119,16 @@ public class Application {
                 processCommands(pet, input);
                 break;
             case 6:
-                System.out.println("you went to the shelter");
+               if (!atShelter ) {
+                   System.out.println("you went to the shelter");
+                   atShelter = true;
+                   tickAllPets();
+               } else {
+                  System.out.println("stop interacting with " + pet.getName());
+               }
                 printShelterInstructions();
                 processShelterCommands(input);
-                tickAllPets();
+
                 break;
 
 
@@ -111,7 +138,14 @@ public class Application {
                 processCommands(pet, input);
 
         }
+        if (atShelter){
+            printInstructions(pet);
+            processCommands(pet, input);
+        }
+        else {
 
+            atShelter = false;
+        }
 
     }
 
@@ -164,15 +198,13 @@ public class Application {
                 break;
             case 8:
                 shelter.printStatusOfAllPets();
-                processShelterCommands(input);
+
                 break;
             case 9:
                 System.out.println("see you next time!");
                 return;
             default:
                 System.out.println("Not a valid instruction, please enter a new command.");
-                printShelterInstructions();
-                processShelterCommands(input);
 
         }
         printShelterInstructions();
