@@ -14,7 +14,7 @@ public class Application {
     public static void main(String[] args) {
         fillPetShelter();
         Scanner input = new Scanner(System.in);
-        boolean isGameRunning = true;
+        boolean isGameRunning = true;0
         VirtualPet pet = introAndMakePet(input);
         petSelection.put(pet.getName(), pet);
 //        put adds the pet to the map.
