@@ -1,9 +1,6 @@
 package virtual_pet;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Application {
     private static Map<String, VirtualPet> petSelection = new HashMap<>();
@@ -24,7 +21,7 @@ public class Application {
             printInstructions(pet);
             pet = processCommands(pet, input);
             tickAllPets();
-            isGameRunning = checkForDeath(pet);
+            isGameRunning = checkForDeath();
         }
 
 
@@ -82,16 +79,31 @@ public class Application {
 
 
     public static boolean checkForDeath() {
-        for (VirtualPet pet: petSelection.values()){
-            if (pet.isDead()){
-                petSelection.remove(pet.getName());
+        int size = petSelection.values().size();
+        Collection<VirtualPet> petCollection = petSelection.values();
+        List<VirtualPet> petList = new ArrayList<>(petCollection);
+
+        for (int i = size-1 ; i >=0;i-- ){
+            if (petList.get(i).isDead()){
+                petSelection.remove(petList.get(i).getName());
             }
         }
         if (petSelection.size() == 0){
+            System.out.println("All of your pets have died! Game Over!");
             return false;
         }
         return true;
+    }
+    public static void checkForShelterDeaths() {
+        int size = shelter.getListOfPets().size();
+        Collection<VirtualPet> petCollection = shelter.getListOfPets();
+        List<VirtualPet> petList = new ArrayList<>(petCollection);
 
+        for (int i = size-1 ; i >=0;i-- ){
+            if (petList.get(i).isDead()){
+                shelter.adopt(petList.get(i).getName());
+            }
+        }
     }
 
 
@@ -213,8 +225,9 @@ public class Application {
                 break;
             case 8:
                 shelter.printStatusOfAllPets();
-
-                break;
+                printShelterInstructions();
+                processShelterCommands(input);
+                return;
             case 9:
                 System.out.println("see you next time!");
                 atShelter = false;
@@ -224,6 +237,7 @@ public class Application {
 
         }
         tickAllShelterPets();
+        checkForShelterDeaths();
         printShelterInstructions();
         processShelterCommands(input);
 
@@ -250,7 +264,7 @@ public class Application {
     }
 
     public static void listAllShelterPets() {
-        for (VirtualPet pet : petSelection.values()) {
+        for (VirtualPet pet : shelter.getListOfPets()) {
             System.out.print(pet.getName() + ", ");
         }
         System.out.println();

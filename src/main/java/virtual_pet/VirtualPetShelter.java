@@ -64,6 +64,12 @@ public class VirtualPetShelter {
         }
     }
 
+    public void removeDeadPet(VirtualPet pet) {
+        if(pet.isDead()) {
+            mapOfPets.remove(pet.getName());
+        }
+    }
+
     public void printStatusOfAllPets() {
         System.out.println("| Name     | " + "Boredom |" + " Hunger | " + "Thirst | " + "Health |");
         System.out.println("-------------------------------------------------");
