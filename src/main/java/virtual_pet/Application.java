@@ -274,18 +274,12 @@ public class Application {
 
     //prints out a list of pets names, so you know which you can choose between
     public static void listAllPets() {
-        for (VirtualPet pet : petSelection.values()) {
-            System.out.print(pet.getName() + ", ");
-        }
-        System.out.println();
+        System.out.println(petSelection.values());
     }
 
     //prints out a list of shelter pets' names, so you know which you can choose between
     public static void listAllShelterPets() {
-        for (VirtualPet pet : shelter.getListOfPets()) {
-            System.out.print(pet.getName() + ", ");
-        }
-        System.out.println();
+        System.out.println(shelter.getMapOfPets().values());
     }
 
 }
