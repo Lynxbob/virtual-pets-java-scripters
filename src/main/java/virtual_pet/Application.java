@@ -39,12 +39,50 @@ public class Application {
 
     }
 
+
+    //method to choose what pet to create
+    public static VirtualPet chooseStartingPet(Scanner input, String name) {
+        VirtualPet pet;
+        System.out.println("What type of pet do you want to create?");
+        System.out.println("Press 1 for robotic dog");
+        System.out.println("Press 2 for robotic cat");
+        System.out.println("Press 3 for organic dog");
+        System.out.println("Press 4 for organic cat");
+        int command = input.nextInt();
+
+        switch (command) {
+            case 1:
+                pet = new RoboticVirtualDog(name);
+                break;
+            case 2:
+                pet = new RoboticVirtualCat(name);
+                break;
+
+            case 3:
+                pet = new OrganicVirtualDog(name);
+                break;
+
+            case 4:
+                pet = new OrganicVirtualCat(name);
+                break;
+
+            default:
+                System.out.println("Not a valid instruction,please enter a new command");
+                return chooseStartingPet(input, name);
+
+        }
+
+        return pet;
+
+
+    }
+
     //intro for the game
     public static VirtualPet introAndMakePet(Scanner input) {
         System.out.println("Welcome to the Java scripters virtual pet game!");
         System.out.println("What would you like to name your pet?");
         String petName = input.nextLine();
-        VirtualPet pet = new VirtualPet(petName);
+        VirtualPet pet = chooseStartingPet(input,petName);
         System.out.println("Say hello to your new pet " + pet.getName() + "!");
         petSelection.put(pet.getName().toLowerCase(), pet);
         return pet;
@@ -60,12 +98,21 @@ public class Application {
         System.out.println("Enter '4' to play with your pet.");
         System.out.println("To see how your pet is doing, enter '5'.");
 
+
         //prints out different options whether or not you're at the shelter
         if (!atShelter) {
             System.out.println("To visit the pet shelter, press '6'.");
             System.out.println("To switch the pet you are interacting with, press '7'.");
         } else {
             System.out.println("To stop interacting with the pet, press '6'.");
+        }
+        if (pet instanceof RoboticVirtualPet) {
+            System.out.println("To oil your pet, press '8'. ");
+        } else {
+            System.out.println("To clean your pet's cage/litter box, press '8'.");
+        }
+        if (pet instanceof Walkable) {
+            System.out.println("To walk your pet,press '9'.");
         }
     }
 
@@ -92,12 +139,12 @@ public class Application {
 
         //iterates through the loop backwards so that when it removes pets it doesnt interfere with the rest of the array(this code wont
         //work with a for each loop)
-        for (int i = size-1 ; i >=0;i-- ){
-            if (petList.get(i).isDead()){
+        for (int i = size - 1; i >= 0; i--) {
+            if (petList.get(i).isDead()) {
                 petSelection.remove(petList.get(i).getName().toLowerCase());
             }
         }
-        if (petSelection.size() == 0){
+        if (petSelection.size() == 0) {
             System.out.println("All of your pets have died! Game Over!");
             return false;
         }
@@ -110,8 +157,8 @@ public class Application {
         Collection<VirtualPet> petCollection = shelter.getListOfPets();
         List<VirtualPet> petList = new ArrayList<>(petCollection);
 
-        for (int i = size-1 ; i >=0;i-- ){
-            if (petList.get(i).isDead()){
+        for (int i = size - 1; i >= 0; i--) {
+            if (petList.get(i).isDead()) {
                 shelter.removeDeadPet(petList.get(i));
             }
         }

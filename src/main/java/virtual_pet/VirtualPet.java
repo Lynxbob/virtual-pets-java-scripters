@@ -42,7 +42,7 @@ public class VirtualPet {
 
     //this would never be used anywhere except here so set to private
     //generates random values for the stats so they dont default to max
-    private int getRandomValueForStat() {
+    protected int getRandomValueForStat() {
        return (int)(Math.random() * (80) + 10);
     }
     public void isDeadCheck() {
