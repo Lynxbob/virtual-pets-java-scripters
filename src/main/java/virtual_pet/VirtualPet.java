@@ -2,9 +2,9 @@ package virtual_pet;
 
 public class VirtualPet {
 
-    private String name;
-    private int health, hunger, thirst, boredom;
-    private boolean isDead;
+    protected String name;
+    protected int health, hunger, thirst, boredom;
+    protected boolean isDead;
 
     public VirtualPet(String name) {
         this.name = name;
