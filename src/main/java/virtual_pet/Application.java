@@ -29,13 +29,14 @@ public class Application {
 
     //adds pets to the shelter so that its not empty during the program.
     public static void fillPetShelter() {
-        VirtualPet pet = new VirtualPet("bob");
+        VirtualPet pet = new RoboticVirtualCat("bob");
         shelter.takeIn(pet);
-        pet = new VirtualPet("amy");
+        pet = new RoboticVirtualDog("amy");
         shelter.takeIn(pet);
-        pet = new VirtualPet("miguel");
+        pet = new OrganicVirtualCat("miguel");
         shelter.takeIn(pet);
-
+        pet = new OrganicVirtualDog("mikey");
+        shelter.takeIn(pet);
 
     }
 
@@ -44,10 +45,10 @@ public class Application {
     public static VirtualPet chooseStartingPet(Scanner input, String name) {
         VirtualPet pet;
         System.out.println("What type of pet do you want to create?");
-        System.out.println("Press 1 for robotic dog");
-        System.out.println("Press 2 for robotic cat");
-        System.out.println("Press 3 for organic dog");
-        System.out.println("Press 4 for organic cat");
+        System.out.println("Press '1' for Robotic Dog.");
+        System.out.println("Press '2' for Robotic Cat.");
+        System.out.println("Press '3' for Organic Dog.");
+        System.out.println("Press '4' for Organic Cat.");
         int command = input.nextInt();
 
         switch (command) {
@@ -67,7 +68,7 @@ public class Application {
                 break;
 
             default:
-                System.out.println("Not a valid instruction,please enter a new command");
+                System.out.println("Not a valid instruction, please enter a new command.");
                 return chooseStartingPet(input, name);
 
         }
@@ -102,17 +103,19 @@ public class Application {
         //prints out different options whether or not you're at the shelter
         if (!atShelter) {
             System.out.println("To visit the pet shelter, press '6'.");
-            System.out.println("To switch the pet you are interacting with, press '7'.");
         } else {
             System.out.println("To stop interacting with the pet, press '6'.");
         }
+
+        System.out.println("To switch the pet you are interacting with, press '7'.");
+
         if (pet instanceof RoboticVirtualPet) {
             System.out.println("To oil your pet, press '8'. ");
         } else {
             System.out.println("To clean your pet's cage/litter box, press '8'.");
         }
         if (pet instanceof Walkable) {
-            System.out.println("To walk your pet,press '9'.");
+            System.out.println("To walk your pet, press '9'.");
         }
     }
 
@@ -207,14 +210,36 @@ public class Application {
                 break;
             case 7:
                 //if not at shelter, then asks which of your pets to interact with. if at the shelter, skips case 7 and prints default.
+                System.out.println("What pet would you like to interact with?");
                 if (!atShelter) {
-                    System.out.println("What pet would you like to interact with?");
                     listAllPets();
                     String name = input.nextLine().toLowerCase();
                     pet = petSelection.get(name);
+                } else {
+                    listAllShelterPets();
+                    String name = input.nextLine().toLowerCase();
+                    pet = shelter.getMapOfPets().get(name);
+                }
+                break;
+// all long as our last case is always this one, then it will run an invalid command
+            case 8:
+                //case 8 handles the sout message for cleaning in the OrganicVirtualPet Class
+                if(pet instanceof RoboticVirtualPet) {
+                    System.out.println("You gave your pet some fresh oil.");
+                    ((RoboticVirtualPet) pet).oil();
+                }
+                else {
+                    ((OrganicVirtualPet) pet).clean();
+                }
+                break;
+            case 9:
+
+                if(pet instanceof Walkable) {
+                    ((Walkable) pet).walk();
+                    System.out.println("You walked your pet.");
                     break;
                 }
-// all long as our last case is always this one, then it will run an invalid command
+                // if case 9 isn't true will run default
 
             default:
                 System.out.println("Not a valid instruction, please enter a new command.");
@@ -224,6 +249,7 @@ public class Application {
         }
         //if at the shelter, then it will stay in the loop so that it will continue to let you interact with whatever pet you like
         if (atShelter) {
+            pet.tick();
             printInstructions(pet);
             pet = processCommands(pet, input);
         } else {
@@ -315,6 +341,12 @@ public class Application {
     public static void tickAllShelterPets() {
         for (VirtualPet pet : shelter.getListOfPets()) {
             pet.tick();
+            if(pet instanceof RoboticVirtualPet) {
+                ((RoboticVirtualPet) pet).setOilLevel(100);
+            }
+            else {
+                ((OrganicVirtualPet) pet).setCageCleanliness(100);
+            }
         }
 //            Goes through each pet
     }

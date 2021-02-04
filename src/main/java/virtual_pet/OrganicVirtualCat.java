@@ -17,13 +17,16 @@ public class OrganicVirtualCat extends OrganicVirtualPet {
     @Override
     public void isDeadCheck() {
         super.isDeadCheck();
-        if(cageCleanliness <= 40) {
+        if(cageCleanliness > 40 ) {
+            deathModifier = 1;
+        }
+        if(cageCleanliness <= 40 && cageCleanliness > 0) {
             System.out.println("Your cat's litter box is starting to become very dirty.");
             deathModifier = 2;
         }
         if(cageCleanliness <= 0) {
             System.out.println("Your cat's litter box is filthy and needs cleaned immediately.");
-            deathModifier = 3;
+            deathModifier = 5;
             cageCleanliness = 0;
         }
 

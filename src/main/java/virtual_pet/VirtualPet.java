@@ -63,10 +63,10 @@ public class VirtualPet {
 
 
     public void tick() {
-        health -= 10;
-        hunger += 10;
-        thirst += 10;
-        boredom += 10;
+        health -= 4;
+        hunger += 4;
+        thirst += 4;
+        boredom += 4;
         isDeadCheck();
     }
 

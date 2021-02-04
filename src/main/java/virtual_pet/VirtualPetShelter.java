@@ -73,10 +73,10 @@ public class VirtualPetShelter {
     }
 
     public void printStatusOfAllPets() {
-        System.out.println("| Name     | " + "Boredom |" + " Hunger | " + "Thirst | " + "Health |");
-        System.out.println("-------------------------------------------------");
+        System.out.println("| Name                  | " + "Boredom |" + " Hunger | " + "Thirst | " + "Health |");
+        System.out.println("--------------------------------------------------------------");
         for(VirtualPet pet: mapOfPets.values()) {
-            System.out.printf("| %-8s | %3d     | %3d    | %3d    | %3d    |", pet.getName(), pet.getBoredom(),pet.getHunger(),
+            System.out.printf("| %-21s | %3d     | %3d    | %3d    | %3d    |", pet, pet.getBoredom(),pet.getHunger(),
                     pet.getThirst(),pet.getHealth());
             System.out.println();
         }

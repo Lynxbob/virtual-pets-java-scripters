@@ -7,6 +7,6 @@ public class RoboticVirtualCat extends RoboticVirtualPet  {
 
     @Override
     public String toString() {
-        return "robotic cat: " + name;
+        return "Robotic Cat: " + name;
     }
 }

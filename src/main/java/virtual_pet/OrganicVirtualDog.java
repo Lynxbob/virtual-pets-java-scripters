@@ -27,13 +27,16 @@ public class OrganicVirtualDog extends OrganicVirtualPet implements Walkable{
     @Override
     public void isDeadCheck() {
         super.isDeadCheck();
-        if(cageCleanliness <= 40) {
-            System.out.println("Your dog cage is starting to become very dirty.");
+        if(cageCleanliness > 40) {
+            deathModifier = 1;
+        }
+        else if(cageCleanliness <= 40 && cageCleanliness > 0) {
+            System.out.println("Your dog " + name + "'s cage is starting to become very dirty.");
             deathModifier = 2;
         }
-        if(cageCleanliness <= 0) {
-            System.out.println("Your dog's cage is filthy and needs cleaned immediately.");
-            deathModifier = 3;
+        else if(cageCleanliness <= 0) {
+            System.out.println("Your dog " + name + "'s cage is filthy and needs cleaned immediately.");
+            deathModifier = 5;
             cageCleanliness = 0;
         }
 
@@ -59,10 +62,10 @@ public class OrganicVirtualDog extends OrganicVirtualPet implements Walkable{
     }
     @Override
     public void tick() {
-        health -= 10 * deathModifier;
-        hunger += 10 * deathModifier;
-        thirst += 10 * deathModifier;
-        boredom += 10 * deathModifier;
+        health -= 4 * deathModifier;
+        hunger += 4 * deathModifier;
+        thirst += 4 * deathModifier;
+        boredom += 4 * deathModifier;
         cageCleanliness -= 10 / walkModifier;
         isDeadCheck();
         walkModifier=1;
@@ -70,7 +73,7 @@ public class OrganicVirtualDog extends OrganicVirtualPet implements Walkable{
     }
     @Override
     public String toString() {
-        return "dog: " + name;
+        return "Dog: " + name;
     }
 
 

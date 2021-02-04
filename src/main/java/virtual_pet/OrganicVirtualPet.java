@@ -10,6 +10,10 @@ public abstract class OrganicVirtualPet extends VirtualPet{
         deathModifier = 1;
     }
 
+    public void setCageCleanliness(int cageCleanliness) {
+        this.cageCleanliness = cageCleanliness;
+    }
+
     public void clean() {
         cageCleanliness += 30;
         if( cageCleanliness > 100 ) {
@@ -19,10 +23,10 @@ public abstract class OrganicVirtualPet extends VirtualPet{
 
     @Override
     public void tick() {
-        health -= 10 * deathModifier;
-        hunger += 10 * deathModifier;
-        thirst += 10 * deathModifier;
-        boredom += 10 * deathModifier;
+        health -= 4 * deathModifier;
+        hunger += 4 * deathModifier;
+        thirst += 4 * deathModifier;
+        boredom += 4 * deathModifier;
         cageCleanliness -= 10 * deathModifier;
         isDeadCheck();
     }

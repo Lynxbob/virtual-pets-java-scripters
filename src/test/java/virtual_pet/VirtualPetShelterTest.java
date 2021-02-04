@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class VirtualPetShelterTest {
@@ -44,15 +45,11 @@ public class VirtualPetShelterTest {
         VirtualPet pet2 = new VirtualPet("mikey");
         test.takeIn(pet);
         int initialHunger = pet.getHunger();
-        pet.tick();
-        pet.tick();
-        pet.tick();
-        pet.tick();
 
         test.feedOnePet("mike");
 
-        assertEquals(initialHunger + 10, pet.getHunger());
-        assertEquals(0,pet2.getHunger());
+
+        assertTrue(initialHunger  == pet.getHunger() + 30 || pet.getHunger() == 0);
 
     }
     @Test
@@ -60,16 +57,14 @@ public class VirtualPetShelterTest {
         VirtualPetShelter test = new VirtualPetShelter();
         VirtualPet pet = new VirtualPet("mike");
         VirtualPet pet2 = new VirtualPet("mikey");
+        int initialHunger = pet.getHunger();
+        int initialHunger2 = pet2.getHunger();
         test.takeIn(pet);
         test.takeIn(pet2);
-        for(int i = 0 ; i < 4; i++) {
-            pet.tick();
-            pet2.tick();
-        }
         test.feedAllPets();
 
-        assertEquals(10, pet.getHunger());
-        assertEquals(10,pet2.getHunger());
+        assertTrue(initialHunger  == pet.getHunger() + 30 || pet.getHunger() == 0);
+        assertTrue(initialHunger2  == pet2.getHunger() + 30 || pet2.getHunger() == 0);
 
     }
     @Test
@@ -79,15 +74,11 @@ public class VirtualPetShelterTest {
         VirtualPet pet2 = new VirtualPet("mikey");
         test.takeIn(pet);
         int initialThirst = pet.getThirst();
-        pet.tick();
-        pet.tick();
-        pet.tick();
-        pet.tick();
 
         test.waterOnePet("mike");
 
-        assertEquals(initialThirst + 10, pet.getThirst());
-        assertEquals(0,pet2.getThirst());
+
+        assertTrue(initialThirst  == pet.getThirst() + 30 || pet.getThirst() == 0);
 
     }
     @Test
@@ -97,14 +88,12 @@ public class VirtualPetShelterTest {
         VirtualPet pet2 = new VirtualPet("mikey");
         test.takeIn(pet);
         test.takeIn(pet2);
-        for(int i = 0 ; i < 4; i++) {
-            pet.tick();
-            pet2.tick();
-        }
+        int initialThirst = pet.getThirst();
+        int initialThirst2 = pet2.getThirst();
         test.waterAllPets();
 
-        assertEquals(10, pet.getThirst());
-        assertEquals(10,pet2.getThirst());
+        assertTrue(initialThirst  == pet.getThirst() + 30 || pet.getThirst() == 0);
+        assertTrue(initialThirst2  == pet2.getThirst() + 30 || pet2.getThirst() == 0);
 
     }
     @Test
@@ -114,15 +103,11 @@ public class VirtualPetShelterTest {
         VirtualPet pet2 = new VirtualPet("mikey");
         test.takeIn(pet);
         int initialBoredom = pet.getBoredom();
-        pet.tick();
-        pet.tick();
-        pet.tick();
-        pet.tick();
 
         test.playWithOnePet("mike");
 
-        assertEquals(initialBoredom + 10, pet.getBoredom());
-        assertEquals(0,pet2.getBoredom());
+
+        assertTrue(initialBoredom  == pet.getBoredom() + 30 || pet.getBoredom() == 0);
 
     }
     @Test
@@ -132,14 +117,12 @@ public class VirtualPetShelterTest {
         VirtualPet pet2 = new VirtualPet("mikey");
         test.takeIn(pet);
         test.takeIn(pet2);
-        for(int i = 0 ; i < 4; i++) {
-            pet.tick();
-            pet2.tick();
-        }
+        int initialBoredom = pet.getBoredom();
+        int initialBoredom2 = pet2.getBoredom();
         test.playWithAllPets();
 
-        assertEquals(10, pet.getBoredom());
-        assertEquals(10,pet2.getBoredom());
+        assertTrue(initialBoredom  == pet.getBoredom() + 30 || pet.getBoredom() == 0);
+        assertTrue(initialBoredom2  == pet2.getBoredom() + 30 || pet2.getBoredom() == 0);
 
     }
     @Test
@@ -149,15 +132,11 @@ public class VirtualPetShelterTest {
         VirtualPet pet2 = new VirtualPet("mikey");
         test.takeIn(pet);
         int initialHealth = pet.getHealth();
-        pet.tick();
-        pet.tick();
-        pet.tick();
-        pet.tick();
 
         test.batheOnePet("mike");
 
-        assertEquals(initialHealth - 10, pet.getHealth());
-        assertEquals(100,pet2.getHealth());
+
+        assertTrue(initialHealth  == pet.getHealth() - 30 || pet.getHealth() == 100);
 
     }
     @Test
@@ -167,14 +146,13 @@ public class VirtualPetShelterTest {
         VirtualPet pet2 = new VirtualPet("mikey");
         test.takeIn(pet);
         test.takeIn(pet2);
-        for(int i = 0 ; i < 4; i++) {
-            pet.tick();
-            pet2.tick();
-        }
+        int initialHealth = pet.getHealth();
+        int initialHealth2 = pet2.getHealth();
         test.batheAllPets();
 
-        assertEquals(90, pet.getHealth());
-        assertEquals(90,pet2.getHealth());
+        assertTrue(initialHealth == pet.getHealth() - 30 || pet.getHealth() == 100);
+        assertTrue(initialHealth2  == pet2.getHealth() - 30 || pet2.getHealth() == 100);
+
 
     }
     @Test

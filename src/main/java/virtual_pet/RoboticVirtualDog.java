@@ -20,18 +20,18 @@ public class RoboticVirtualDog extends RoboticVirtualPet implements Walkable {
     }
     @Override
     public void tick() {
-        health -= 10 ;
-        hunger += 10 ;
-        thirst += 10 ;
-        boredom += 10 ;
-        oilLevel -=10 * walkModifier;
+        health -= 4 ;
+        hunger += 4 ;
+        thirst += 4 ;
+        boredom += 4 ;
+        oilLevel -= 4 * walkModifier;
         isDeadCheck();
         walkModifier=1;
 
     }
     @Override
     public String toString() {
-        return "robotic dog: " + name;
+        return "Robotic Dog: " + name;
     }
 
 }

@@ -9,6 +9,10 @@ public abstract class RoboticVirtualPet extends VirtualPet {
         oilLevel = getRandomValueForStat();
     }
 
+    public void setOilLevel(int oilLevel) {
+        this.oilLevel = oilLevel;
+    }
+
     public void oil() {
         oilLevel += 40;
         if (oilLevel > 100) {
@@ -19,11 +23,11 @@ public abstract class RoboticVirtualPet extends VirtualPet {
 
     @Override
     public void tick() {
-        oilLevel -= 10;
-        health -= 10;
-        hunger += 10;
-        thirst += 10;
-        boredom += 10;
+        oilLevel -= 4;
+        health -= 4;
+        hunger += 4;
+        thirst += 4;
+        boredom += 4;
         isDeadCheck();
     }
 
@@ -31,7 +35,8 @@ public abstract class RoboticVirtualPet extends VirtualPet {
     public void isDeadCheck() {
         super.isDeadCheck();
         if (oilLevel <= 0) {
-            System.out.println("Your pet exploded");
+            System.out.println("Your pet " + name + " exploded due to running out of oil.");
+            isDead = true;
         }
     }
     @Override
