@@ -1,33 +1,18 @@
 package virtual_pet;
 
-public class OrganicVirtualCat extends VirtualPet implements Organic{
+public class OrganicVirtualCat extends OrganicVirtualPet {
 
-    private int cageCleanliness;
-    private int deathModifier;
     public OrganicVirtualCat(String name) {
         super(name);
-        cageCleanliness = 100;
-        deathModifier = 1;
     }
 
     @Override
     public void clean() {
-        System.out.println("You clean your cats' litter box.");
-        cageCleanliness += 30;
-        if( cageCleanliness > 100 ) {
-            cageCleanliness = 100;
-        }
+        super.clean();
+        System.out.println("You cleaned " + name + "'s litter box.");
     }
 
-    @Override
-    public void tick() {
-        health -= 10 * deathModifier;
-        hunger += 10 * deathModifier;
-        thirst += 10 * deathModifier;
-        boredom += 10 * deathModifier;
-        cageCleanliness -= 10 * deathModifier;
-        isDeadCheck();
-    }
+
 
     @Override
     public void isDeadCheck() {
