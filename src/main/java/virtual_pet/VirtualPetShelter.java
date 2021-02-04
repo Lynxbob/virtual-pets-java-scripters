@@ -3,6 +3,7 @@ package virtual_pet;
 import java.util.*;
 
 public class VirtualPetShelter {
+    //Map Keys always are lowercase for consistency in terms of reading, Pet names ignore case however
     private Map<String, VirtualPet> mapOfPets;
 
     public VirtualPetShelter() {
@@ -18,10 +19,11 @@ public class VirtualPetShelter {
     }
 
     public void takeIn(VirtualPet pet) {
-        mapOfPets.put(pet.getName(), pet);
+        mapOfPets.put(pet.getName().toLowerCase(), pet);
     }
 
     public VirtualPet adopt(String name) {
+        name = name.toLowerCase();
         VirtualPet petToAdopt = mapOfPets.get(name);
         mapOfPets.remove(name);
         return petToAdopt;
@@ -66,7 +68,7 @@ public class VirtualPetShelter {
 
     public void removeDeadPet(VirtualPet pet) {
         if(pet.isDead()) {
-            mapOfPets.remove(pet.getName());
+            mapOfPets.remove(pet.getName().toLowerCase());
         }
     }
 

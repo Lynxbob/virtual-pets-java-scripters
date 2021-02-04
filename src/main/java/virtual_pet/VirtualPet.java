@@ -3,27 +3,21 @@ package virtual_pet;
 public class VirtualPet {
 
     private String name;
-    private int age;
     private int health, hunger, thirst, boredom;
     private boolean isDead;
 
     public VirtualPet(String name) {
         this.name = name;
-        this.age = 0;
-        this.hunger = 0;
-        this.health = 100;
-        this.thirst = 0;
-        this.boredom = 0;
+        this.hunger = getRandomValueForStat();
+        this.health = getRandomValueForStat();
+        this.thirst = getRandomValueForStat();
+        this.boredom = getRandomValueForStat();
         this.isDead = false;
 
     }
 
     public String getName() {
         return name;
-    }
-
-    public int getAge() {
-        return age;
     }
 
     public int getHealth() {
@@ -46,6 +40,11 @@ public class VirtualPet {
         return isDead;
     }
 
+    //this would never be used anywhere except here so set to private
+    //generates random values for the stats so they dont default to max
+    private int getRandomValueForStat() {
+       return (int)(Math.random() * (80) + 10);
+    }
     public void isDeadCheck() {
         if (health <= 0) {
             System.out.println("Your pet " + name + " died of sickness.");
@@ -110,6 +109,7 @@ public class VirtualPet {
         thirstStatus();
         boredomStatus();
     }
+
     public void healthStatus() {
         if (health <= 100 && health >= 80) {
             System.out.println(name + " is feeling healthy.");
@@ -118,7 +118,7 @@ public class VirtualPet {
         } else if (health < 50 && health >= 30) {
             System.out.println(name + " is feeling sick.");
         } else {
-            System.out.println(name + " need medical attention.");
+            System.out.println(name + " needs medical attention.");
         }
     }
     public void hungerStatus() {
@@ -155,6 +155,12 @@ public class VirtualPet {
             System.out.println(name + " is feeling super excited.");
         }
 
+    }
+
+    //defaults pet name as the toString
+    @Override
+    public String toString() {
+        return name;
     }
 }
 
