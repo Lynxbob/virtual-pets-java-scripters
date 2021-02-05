@@ -50,7 +50,7 @@ public class Application {
         System.out.println("Press '2' for Robotic Cat.");
         System.out.println("Press '3' for Organic Dog.");
         System.out.println("Press '4' for Organic Cat.");
-        int command = input.nextInt();
+        int command = startingCatchCommand(input);
 
         switch (command) {
             case 1:
@@ -76,6 +76,25 @@ public class Application {
 
         return pet;
 
+
+    }
+
+    private static int startingCatchCommand(Scanner input) {
+        String comm;
+        int command;
+        try {
+            comm = input.nextLine();
+            command = Integer.parseInt(comm);
+            return command;
+        } catch(Exception e) {
+            System.out.println("Not a valid instruction, please enter a new command.");
+            System.out.println("What type of pet do you want to create?");
+            System.out.println("Press '1' for Robotic Dog.");
+            System.out.println("Press '2' for Robotic Cat.");
+            System.out.println("Press '3' for Organic Dog.");
+            System.out.println("Press '4' for Organic Cat.");
+            return startingCatchCommand(input);
+        }
 
     }
 
@@ -168,10 +187,36 @@ public class Application {
         }
     }
 
+    public static int catchCommand(Scanner input, VirtualPet pet) {
+        String comm;
+        int command;
+        try {
+            comm = input.nextLine();
+            command = Integer.parseInt(comm);
+            return command;
+        } catch(Exception e) {
+            System.out.println("Not a valid instruction, please enter a new command.");
+            printInstructions(pet);
+            return catchCommand(input, pet);
+        }
+    }
+    public static int shelterCatchCommand(Scanner input) {
+        String comm;
+        int command;
+        try {
+            comm = input.nextLine();
+            command = Integer.parseInt(comm);
+            return command;
+        } catch(Exception e) {
+            System.out.println("Not a valid instruction, please enter a new command.");
+            printShelterInstructions();
+            return shelterCatchCommand(input);
+        }
+    }
+
     //takes user input to process whichever command is needed
     public static VirtualPet processCommands(VirtualPet pet, Scanner input) {
-        int command = input.nextInt();
-        input.nextLine();
+        int command = catchCommand(input, pet);
         switch (command) {
             case 0:
                 System.out.println("Exiting the application..");
@@ -195,8 +240,7 @@ public class Application {
             case 5:
                 pet.status();
                 printInstructions(pet);
-                pet = processCommands(pet, input);
-                break;
+                return processCommands(pet, input);
             case 6:
                 if (!atShelter) {
                     System.out.println("You went to the shelter.");
@@ -204,9 +248,11 @@ public class Application {
                     tickAllPets();
                 } else {
                     System.out.println("You stopped interacting with " + pet.getName() + ".");
+                    return pet;
                 }
                 printShelterInstructions();
                 processShelterCommands(input);
+                atShelter = false;
 
                 break;
             case 7:
@@ -265,7 +311,7 @@ public class Application {
             default:
                 System.out.println("Not a valid instruction, please enter a new command.");
                 printInstructions(pet);
-                pet = processCommands(pet, input);
+                return processCommands(pet, input);
 
         }
         //if at the shelter, then it will stay in the loop so that it will continue to let you interact with whatever pet you like
@@ -286,9 +332,8 @@ public class Application {
 
     public static void processShelterCommands(Scanner input) {
         VirtualPet pet;
-        int command = input.nextInt();
+        int command = shelterCatchCommand(input);
         String name;
-        input.nextLine();
         switch (command) {
             case 0:
                 System.out.println("Exiting the application..");
@@ -375,6 +420,9 @@ public class Application {
                 return;
             default:
                 System.out.println("Not a valid instruction, please enter a new command.");
+                printShelterInstructions();
+                processShelterCommands(input);
+                return;
 
         }
         //changes stats of the shelter pets, checks if any have died, then stays in the loop until user specifies to leave.
