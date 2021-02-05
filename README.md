@@ -37,3 +37,24 @@ A word about our grading, we will be evaluating your projects on five different 
 - Clean Code
 - Agile/Team Development Practices
 - Use of Version Control/Git
+
+# Game Rules
+Make a pet, and keep him/her alive by feeding, playing, bathing, and giving them water.
+There are four different pets to choose from! you have:
+- Organic dogs
+- Organic cats
+- Robotic dogs
+- Robotic cats
+
+Make sure to check up on your pets and make sure they are healthy by checking their stats.
+
+Organic pets have cages that need to maintained, while the robotic pets have oil levels that need to be upheld.
+
+While you are at the shelter, you need to take care of the pets living there as well. Neglect them, and they will end up dying.   
+Oil level and cage cleanliness will be taken care of for you.
+
+If you want to add more pets to your arsenal, you can go to the pet shelter to adopt a new friend!
+
+Be careful though with more pets, comes great responsibility. 
+
+If all your pets die you lose the game!

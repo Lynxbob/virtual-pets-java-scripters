@@ -22,6 +22,7 @@ public class Application {
             pet = processCommands(pet, input);
             tickAllPets();
             isGameRunning = checkForDeath();
+            pet = switchPet(pet);
         }
 
 
@@ -214,11 +215,31 @@ public class Application {
                 if (!atShelter) {
                     listAllPets();
                     String name = input.nextLine().toLowerCase();
+                    while(petSelection.get(name) == null){
+                        System.out.println("That pet doesnt exist, try another one.");
+                        System.out.println("If you've changed your mind, press '0'.");
+                        name = input.nextLine().toLowerCase();
+                        if (name.equals("0")){
+                            atShelter = false;
+                            return pet;
+                        }
+                    }
+
                     pet = petSelection.get(name);
                 } else {
                     listAllShelterPets();
                     String name = input.nextLine().toLowerCase();
+                    while(shelter.getMapOfPets().get(name) == null){
+                        System.out.println("That pet doesnt exist, try another one.");
+                        System.out.println("If you've changed your mind, press '0'.");
+                        name = input.nextLine().toLowerCase();
+                        if (name.equals("0")){
+                            printInstructions(pet);
+                            return processCommands(pet, input);
+                        }
+                    }
                     pet = shelter.getMapOfPets().get(name);
+
                 }
                 break;
 // all long as our last case is always this one, then it will run an invalid command
@@ -250,6 +271,11 @@ public class Application {
         //if at the shelter, then it will stay in the loop so that it will continue to let you interact with whatever pet you like
         if (atShelter) {
             pet.tick();
+
+            if (pet.isDead()){
+                shelter.removeDeadPet(pet);
+                return pet;
+            }
             printInstructions(pet);
             pet = processCommands(pet, input);
         } else {
@@ -271,6 +297,16 @@ public class Application {
                 System.out.println("What pet would you like to interact with?");
                 listAllShelterPets();
                 name = input.nextLine().toLowerCase();
+                while(shelter.getMapOfPets().get(name) == null){
+                    System.out.println("That pet doesnt exist, try another one.");
+                    System.out.println("If you've changed your mind, press '0'.");
+                    name = input.nextLine().toLowerCase();
+                    if (name.equals("0")){
+                        printShelterInstructions();
+                        processShelterCommands(input);
+                        return;
+                    }
+                }
                 pet = shelter.getMapOfPets().get(name);
 //                this will go into shelter, get the map(list of pets) and bring back the pet we asked for
                 printInstructions(pet);
@@ -280,6 +316,16 @@ public class Application {
                 System.out.println("What pet would you like to adopt?");
                 listAllShelterPets();
                 name = input.nextLine();
+                while(shelter.getMapOfPets().get(name) == null){
+                    System.out.println("That pet doesnt exist, try another one.");
+                    System.out.println("If you've changed your mind, press '0'.");
+                    name = input.nextLine().toLowerCase();
+                    if (name.equals("0")){
+                        printShelterInstructions();
+                        processShelterCommands(input);
+                        return;
+                    }
+                }
                 pet = shelter.adopt(name);
                 petSelection.put(pet.getName().toLowerCase(), pet);
                 System.out.println("say hello to your new pet " + pet.getName() + "!");
@@ -288,6 +334,16 @@ public class Application {
                 System.out.println("What pet would you like to return?");
                 listAllPets();
                 name = input.nextLine().toLowerCase();
+                while(petSelection.get(name) == null){
+                    System.out.println("That pet doesnt exist, try another one.");
+                    System.out.println("If you've changed your mind, press '0'.");
+                    name = input.nextLine().toLowerCase();
+                    if (name.equals("0")){
+                        printShelterInstructions();
+                        processShelterCommands(input);
+                        return;
+                    }
+                }
                 shelter.takeIn(petSelection.get(name));
                 petSelection.remove(name);
                 System.out.println("Say goodbye to " + name + "!");
@@ -340,13 +396,14 @@ public class Application {
     //ticks all pets
     public static void tickAllShelterPets() {
         for (VirtualPet pet : shelter.getListOfPets()) {
-            pet.tick();
+
             if(pet instanceof RoboticVirtualPet) {
                 ((RoboticVirtualPet) pet).setOilLevel(100);
             }
             else {
                 ((OrganicVirtualPet) pet).setCageCleanliness(100);
             }
+            pet.tick();
         }
 //            Goes through each pet
     }
@@ -359,6 +416,17 @@ public class Application {
     //prints out a list of shelter pets' names, so you know which you can choose between
     public static void listAllShelterPets() {
         System.out.println(shelter.getMapOfPets().values());
+    }
+
+    public static VirtualPet switchPet(VirtualPet pet) {
+        if (pet.isDead()){
+            for (VirtualPet joe: petSelection.values()){
+                if (!joe.isDead()){
+                    return joe;
+                }
+            }
+        }
+        return pet;
     }
 
 }
